@@ -1,6 +1,5 @@
 <script setup>
   import { io } from "socket.io-client";
-  const tooltipUI = {width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'};
   const definitions = useState("definitions");
   const currentTime = useState("currentTime");
   const socketData = useState("socketData");
@@ -57,7 +56,7 @@
         <Flex row justify="between">
           <Flex row justify="start" items="center" gap="1">
             <h1 class="text-xl">Stratum:</h1>
-            <UTooltip class="pt-1.5" :text="definitions.stratum" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="tooltipUI"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
+            <UTooltip class="pt-1.5" :text="definitions.stratum" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="{width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'}"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
           </Flex>
           <h1 v-if="socketData" class="text-xl font-semibold text-blue-600">{{ socketData.stratum }}</h1>
           <h1 v-else class="text-xl font-semibold text-blue-600">Loading..</h1>
@@ -66,7 +65,7 @@
         <Flex row justify="between" class="pt-4">
           <Flex row justify="start" items="center" gap="1">
             <h1 class="text-xl">Origin:</h1>
-            <UTooltip class="pt-1.5" :text="definitions.origin" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="tooltipUI"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
+            <UTooltip class="pt-1.5" :text="definitions.origin" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="{width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'}"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
           </Flex>
           <h1 v-if="socketData" class="text-xl font-semibold text-blue-600">{{ socketData.origin }}</h1>
           <h1 v-else class="text-xl font-semibold text-blue-600">Loading..</h1>
@@ -75,7 +74,7 @@
         <Flex row justify="between" class="pt-4">
           <Flex row justify="start" items="center" gap="1">
             <h1 class="text-xl">Root Dispersion:</h1>
-            <UTooltip class="pt-1.5" :text="definitions.rootDispersion" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="tooltipUI"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
+            <UTooltip class="pt-1.5" :text="definitions.rootDispersion" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="{width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'}"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
           </Flex>
           <h1 v-if="socketData" class="text-xl font-semibold"><span class="text-blue-600">{{ secondsToSubmultiples(socketData.dispersion).value }}</span>{{ secondsToSubmultiples(socketData.dispersion).unit }}</h1>
           <h1 v-else class="text-xl font-semibold text-blue-600">Loading..</h1>
@@ -84,7 +83,7 @@
         <Flex row justify="between" class="pt-4">
           <Flex row justify="start" items="center" gap="1">
             <h1 class="text-xl">Leap status:</h1>
-            <UTooltip class="pt-1.5" :text="definitions.leapStatus" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="tooltipUI"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
+            <UTooltip class="pt-1.5" :text="definitions.leapStatus" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="{width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'}"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
           </Flex>
           <h1 v-if="socketData" class="text-xl font-semibold text-blue-600">{{ socketData.leap }}</h1>
           <h1 v-else class="text-xl font-semibold text-blue-600">Loading..</h1>
@@ -95,7 +94,7 @@
         <Flex row justify="between">
           <Flex row justify="start" items="center" gap="1">
             <h1 class="text-xl">System RMS Offset:</h1>
-            <UTooltip class="pt-1.5" :text="definitions.rmsOffset" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="tooltipUI"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
+            <UTooltip class="pt-1.5" :text="definitions.rmsOffset" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="{width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'}"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
           </Flex>
           <h1 v-if="socketData" class="text-xl font-semibold"><span class="text-blue-600">{{ secondsToSubmultiples(socketData.rmsoffset).value }}</span>{{ secondsToSubmultiples(socketData.rmsoffset).unit }}</h1>
           <h1 v-else class="text-xl font-semibold text-blue-600">Loading..</h1>
@@ -104,7 +103,7 @@
         <Flex row justify="between" class="pt-4 align-middle">
           <Flex row justify="start" items="center" gap="1">
             <h1 class="text-xl">Residual Frequency:</h1>
-            <UTooltip class="pt-1.5" :text="definitions.residualFreq" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="tooltipUI"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
+            <UTooltip class="pt-1.5" :text="definitions.residualFreq" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="{width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'}"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
           </Flex>
           <h1 v-if="socketData" class="text-xl font-semibold"><span class="text-blue-600">{{ socketData.residual }}</span> ppm</h1>
           <h1 v-else class="text-xl font-semibold text-blue-600">Loading..</h1>
@@ -113,7 +112,7 @@
         <Flex row justify="between" items="center" class="pt-4">
           <Flex row justify="start" items="center" gap="1">
             <h1 class="text-xl">Skew:</h1>
-            <UTooltip class="pt-1.5" :text="definitions.skew" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="tooltipUI"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
+            <UTooltip class="pt-1.5" :text="definitions.skew" :popper="device.isDesktop ? { placement: 'right' } : ''" :ui="{width: 'max-w-md', base: '[@media(pointer:coarse)]:!block h-fit px-2 py-1 text-xs font-normal text-wrap relative'}"><UIcon name="i-mdi-information-circle-outline" class="text-base"/></UTooltip>
           </Flex>
           <h1 v-if="socketData" class="text-xl font-semibold"><span class="text-blue-600">{{ socketData.skew }}</span> ppm</h1>
           <h1 v-else class="text-xl font-semibold text-blue-600">Loading..</h1>
