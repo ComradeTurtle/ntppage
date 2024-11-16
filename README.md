@@ -1,8 +1,11 @@
-# Nuxt Minimal Starter
+# NTP Page
+A simple, one-page website I made to display statistics from my [Stratum 1 PPS Server](https://www.ntppool.org/scores/44.32.63.52). Built with Nuxt 3.
 
+This website uses components from [Tougrel's Nuxt Components](https://github.com/Tougrel/nuxt-components).
+
+
+## Setup instructions
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
 
 Make sure to install dependencies:
 
