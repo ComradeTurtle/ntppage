@@ -1,7 +1,11 @@
 <script setup>
   const definitions = useState("definitions");
   const statusClasses = useState("statusClasses");
+
+  useState("serverTime");
+  useState("clientOffset");
   useState("currentTime");
+  useState("uncertainty");
   useState("socketData", () => null);
 
   definitions.value = {

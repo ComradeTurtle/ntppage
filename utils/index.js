@@ -24,3 +24,13 @@ export const secondsToSubmultiples = (s) => {
         };
     }
 }
+
+export const offsetFormat = (offset) => {
+    if (offset < 0) {
+        return `${Math.abs(offset)}ms ahead`
+    } else if (offset === 0) {
+      return `exactly in sync!`
+    } else {
+        return `${offset}ms behind`
+    }
+}

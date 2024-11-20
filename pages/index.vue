@@ -1,12 +1,58 @@
 <script setup>
   import { io } from "socket.io-client";
+  import {offsetFormat} from "~/utils/index.js";
   const definitions = useState("definitions");
   const currentTime = useState("currentTime");
   const socketData = useState("socketData");
   const statusClasses = useState("statusClasses");
+  const serverTime = useState("serverTime");
+  const clientOffset = useState("clientOffset");
+  const uncertainty = useState("uncertainty");
+  let interval;
 
   const device = useDevice();
-  
+
+  const fetchServerTime = async () => {
+    try {
+      const startTime = Date.now();
+      const response = await fetch('https://gr1-ntpsync.comradeturtle.dev/time');
+      const endTime = Date.now();
+
+      const rtt = endTime - startTime;
+
+      if (rtt > 1000) {
+        return fetchServerTime();
+      }
+
+      const serverTime = await response.text(); // Parse the server's response
+      const serverTimestamp = parseInt(serverTime); // Assume server returns { "timestamp": 1699461234567 }
+
+      const clientTimestamp = startTime + rtt / 2; // Estimate when the server time arrived
+      const offset = serverTimestamp - clientTimestamp; // Calculate the offset
+
+      // Update clock display
+      updateClock(serverTimestamp, offset, rtt);
+    } catch (error) {
+      console.error('Failed to fetch server time:', error);
+    }
+  }
+
+  const updateClock = async (serverTimestamp, offset, rtt) => {
+    function tick() {
+      const currentClientTime = Date.now();
+      const currentServerTime = currentClientTime + offset;
+
+      const serverDate = new Date(currentServerTime);
+      uncertainty.value = rtt;
+      clientOffset.value = offset;
+      serverTime.value = `${serverDate.toLocaleTimeString('en-GB')}.${serverDate.getMilliseconds().toString()[0]}`;
+    }
+
+    if (interval) clearInterval(interval);
+    interval = setInterval(tick, 50); // Update the clock every second
+    tick(); // Initial tick
+  }
+
   onMounted(() => {
     const socket = io("https://grntp.comradeturtle.dev:2083");
 
@@ -26,18 +72,19 @@
       socketData.value = e;
     })
 
-    console.log(device.isDesktop, device.isMobile)
-    setInterval(() => {
-      currentTime.value = `${new Date().toLocaleDateString('en-GB')} ${new Date().toLocaleTimeString('en-GB')}`
-    }, 100);
+    fetchServerTime();
+    setInterval(fetchServerTime, 10000); // Refresh every minute
   })
 </script>
 
 <template>
   <Flex column justify="center" items="center" gap="2" class="pt-6">
-    <Flex column justify="center" items="center" class="p-4 bg-gray-900 rounded-xl border md:w-1/3 w-2/3 border-2" :class="statusClasses[statusClasses.active]">
-      <h1 class="text-2xl font-semibold">Your current system time:</h1>
-      <h1 class="text-3xl">{{ currentTime }}</h1>
+    <Flex column justify="center" items="center" class="p-4 bg-gray-900 rounded-xl border md:w-1/3 w-full border-2" :class="statusClasses[statusClasses.active]">
+      <h1 class="md:text-3xl text-2xl" v-if="serverTime">Current server time: <span class="font-semibold">{{ serverTime }}</span></h1>
+      <h1 class="md:text-3xl text-2xl" v-else>Fetching server time..</h1>
+
+      <h1 v-if="clientOffset || clientOffset === 0">Your clock is {{ offsetFormat(clientOffset) }} (±{{ uncertainty }}ms).</h1>
+      <h1 v-else>Calculating offset..</h1>
     </Flex>
     <h1 class="text-center italic">Hover above the information icon to learn about each parameter.</h1>
 
